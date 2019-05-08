@@ -69,6 +69,14 @@ class EpiiLog
 
     private static function objectInfo($object)
     {
-        return ["string", $object . ""];
+        if(json_decode($object) !== null){
+            $type = 'json';
+        }else if(unserialize($object)){
+            $type = 'serialize';
+        }else {
+            $type = 'string';
+        }
+
+        return [$type, $object . ""];
     }
 }
