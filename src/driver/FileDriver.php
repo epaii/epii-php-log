@@ -11,16 +11,14 @@ namespace epii\log\driver;
 
 class FileDriver implements IDriver
 {
-
     public function log(string $level, string $msg, string $msg_type = "string")
     {
-
         $this->writeFile(date("Ymd"),$msg,$msg_type);
     }
 
     private function writeFile($file, $msg, $msg_type)
     {
-        $path = __DIR__."\\..\\..\\..\\log\\";
+        $path = $this->getVendorDir()."..\\log\\";
 
         if(!file_exists($path)){
             @mkdir($path,0777,true)  ?  : exit("没有权限,请检查".$path."目录权限") ;
@@ -37,12 +35,12 @@ class FileDriver implements IDriver
 
             file_put_contents($file,"===================/".date("Y-m-d H:i:s")."/===================".PHP_EOL, FILE_APPEND);
             $this->loopArrayWriteFile($content,$file);
-            file_put_contents($file,"===================/End/===================".PHP_EOL, FILE_APPEND);
+            file_put_contents($file,"===================/End/===================".PHP_EOL.PHP_EOL, FILE_APPEND);
         }else{
             $content = $msg;
             file_put_contents($file,"===================/".date("Y-m-d H:i:s")."/===================".PHP_EOL, FILE_APPEND);
             file_put_contents($file,$content.PHP_EOL , FILE_APPEND);
-            file_put_contents($file,"===================/End/===================".PHP_EOL, FILE_APPEND);
+            file_put_contents($file,"===================/End/===================".PHP_EOL.PHP_EOL, FILE_APPEND);
         }
     }
 
@@ -52,7 +50,7 @@ class FileDriver implements IDriver
         foreach ($array as $k => $v){
             $space = "";
             for ($i = 0; $i <= $no; $i++){
-                $space .= " ";
+                $space .= "   ";
             }
 
             if(is_array($v)){
@@ -63,5 +61,19 @@ class FileDriver implements IDriver
 
             file_put_contents($file,$space . $k . " => ". $v.PHP_EOL , FILE_APPEND);
         }
+    }
+
+    private function getVendorDir()
+    {
+        $files = get_required_files();
+        if ($files) {
+            foreach ($files as $file) {
+                if (substr($file, $pos = -strlen($find = "composer".DIRECTORY_SEPARATOR."ClassLoader.php")) == $find) {
+                    return substr($file, 0, $pos - 1)."\\";
+                }
+            }
+        }
+
+        return __DIR__."\\..\\..\\..\\";
     }
 }
