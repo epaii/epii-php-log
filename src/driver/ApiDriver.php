@@ -17,6 +17,9 @@ class ApiDriver implements IDriver
     public function log(string $level, string $msg, string $msg_type = "string")
     {
         $config = EpiiLog::getConfig();
+        if(!$config){
+            exit("请完善配置");
+        }
         $data = [
             'sign' => $config['sign'],
             'start' => $config['debug'] ? 1 : 2,
