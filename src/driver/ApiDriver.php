@@ -9,12 +9,24 @@
 namespace epii\log\driver;
 
 
+use epii\log\EpiiLog;
+
 class ApiDriver implements IDriver
 {
 
     public function log(string $level, string $msg, string $msg_type = "string")
     {
+        $config = EpiiLog::getConfig();
+        $data = [
+            'sign' => $config['sign'],
+            'start' => $config['debug'] ? 1 : 2,
+            'log' => $msg,
+            'msg_type' => $msg_type,
+            'level' => $level
+        ];
+        $url = $config['api_url'];
 
+        $this->curlRequest($url,false,'post',$data);
     }
 
     private function curlRequest($url, $https = true, $method = "get", $data = null)

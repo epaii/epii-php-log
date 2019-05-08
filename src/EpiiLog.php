@@ -24,8 +24,9 @@ class EpiiLog
 
     /**
      * @param $config
-     * $config['url'] 如果是 api 请求地址
      * $config['debug'] true开 false关
+     * $config['sign'] 签名 可为空
+     * $config['api_url'] 请求地址 可为空
      */
     public static function setConfig($config)
     {
@@ -80,7 +81,7 @@ class EpiiLog
 
     public static function log($level, $object, IDriver $driver = null)
     {
-        if(!self::getConfig()['start']){
+        if(!self::getConfig()['debug']){
             return;
         }
         $info = self::objectInfo($object);
