@@ -33,14 +33,14 @@ class FileDriver implements IDriver
             }
             if(!is_array($content)) exit("无法写入文件，数据格式错误");
 
-            file_put_contents($file,"===================/".date("Y-m-d H:i:s")."[".$msg_type."]"."/===================".PHP_EOL, FILE_APPEND);
+            file_put_contents($file,"===================/".date("Y-m-d H:i:s")."[".$msg_type."]"."/===================".PHP_EOL, FILE_APPEND | LOCK_EX);
             $this->loopArrayWriteFile($content,$file);
-            file_put_contents($file,"===================/End/===================".PHP_EOL.PHP_EOL, FILE_APPEND);
+            file_put_contents($file,"===================/End/===================".PHP_EOL.PHP_EOL, FILE_APPEND | LOCK_EX);
         }else{
             $content = $msg;
-            file_put_contents($file,"===================/".date("Y-m-d H:i:s")."[".$msg_type."]"."/===================".PHP_EOL, FILE_APPEND);
+            file_put_contents($file,"===================/".date("Y-m-d H:i:s")."[".$msg_type."]"."/===================".PHP_EOL, FILE_APPEND | LOCK_EX);
             file_put_contents($file,$content.PHP_EOL , FILE_APPEND);
-            file_put_contents($file,"===================/End/===================".PHP_EOL.PHP_EOL, FILE_APPEND);
+            file_put_contents($file,"===================/End/===================".PHP_EOL.PHP_EOL, FILE_APPEND | LOCK_EX);
         }
     }
 
@@ -54,12 +54,12 @@ class FileDriver implements IDriver
             }
 
             if(is_array($v)){
-                file_put_contents($file,$space . $k . " => ".PHP_EOL , FILE_APPEND);
+                file_put_contents($file,$space . $k . " => ".PHP_EOL , FILE_APPEND | LOCK_EX);
                 $this->loopArrayWriteFile($v, $file, $j+1);
                 continue;
             }
 
-            file_put_contents($file,$space . $k . " => ". $v.PHP_EOL , FILE_APPEND);
+            file_put_contents($file,$space . $k . " => ". $v.PHP_EOL , FILE_APPEND | LOCK_EX);
         }
     }
 
