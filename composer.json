@@ -1,0 +1,19 @@
+{
+  "name": "epii/log",
+  "description": "简单的日志记录，支持 直接输出,文件记录，远程接口，socket 方式",
+  "authors": [
+    {
+      "name": "MrRen Epii",
+      "email": "543169072@qq.com"
+    }
+  ],
+  "license": "MIT",
+  "require": {
+    "php": ">=5.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "epii\\log\\": "src/"
+    }
+  }
+}
