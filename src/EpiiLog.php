@@ -18,6 +18,7 @@ class EpiiLog
     const LEVEL_INFO = "info";
     const LEVEL_NOTICE = "notice";
     const LEVEL_DEBUG = "debug";
+
     private static $_driver = null;
     public static $_debug = true;
     private static $_level;
@@ -32,16 +33,14 @@ class EpiiLog
         self::$_driver = $driver;
     }
 
-    public static function setLevel(int $level)
+    public static function setLevel(string $level)
     {
         self::$_level = $level;
     }
 
     public static function getDriver(IDriver $driver = null): IDriver
     {
-
         return ($driver !== null) ? $driver : ((self::$_driver !== null) ? self::$_driver : (self::$_driver = new EchoDriver()));
-
     }
 
     public static function error($object, IDriver $driver = null)
@@ -71,6 +70,10 @@ class EpiiLog
 
     public static function log($level, $object, IDriver $driver = null)
     {
+        $level_config = [1 => self::LEVEL_DEBUG, 2 => self::LEVEL_INFO, 3 => self::LEVEL_NOTICE, 4 => self::LEVEL_WARN, 5 => self::LEVEL_ERROR];
+        if(array_search($level,$level_config) < array_search(self::$_level,$level_config)){
+            return;
+        }
         if(!self::$_debug){
             return;
         }
