@@ -13,23 +13,26 @@ use epii\log\EpiiLog;
 
 class ApiDriver implements IDriver
 {
+    private $sign;
+    private $url;
+
+    public function __construct($url,$sign = '')
+    {
+        $this->sign = $sign;
+        $this->url = $url;
+    }
 
     public function log(string $level, string $msg, string $msg_type = "string")
     {
-        $config = EpiiLog::getConfig();
-        if(!$config){
-            exit("请完善配置");
-        }
         $data = [
-            'sign' => $config['sign'],
-            'start' => $config['debug'] ? 1 : 2,
+            'sign' => $this->sign,
+            'start' => EpiiLog::$_debug ? 1 : 2,
             'log' => $msg,
             'msg_type' => $msg_type,
             'level' => $level
         ];
-        $url = $config['api_url'];
 
-        $this->curlRequest($url,false,'post',$data);
+        $this->curlRequest($this->url,false,'post',$data);
     }
 
     private function curlRequest($url, $https = true, $method = "get", $data = null)

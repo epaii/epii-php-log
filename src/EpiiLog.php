@@ -19,32 +19,22 @@ class EpiiLog
     const LEVEL_NOTICE = "notice";
     const LEVEL_DEBUG = "debug";
     private static $_driver = null;
+    public static $_debug = true;
+    private static $_level;
 
-    private static $_config;
-
-    /**
-     * @param $config
-     * $config['debug'] true开 false关
-     * $config['sign'] 签名 可为空
-     * $config['api_url'] 请求地址 可为空
-     */
-    public static function setConfig($config)
+    public static function setDebug(bool $debug)
     {
-        self::$_config = $config;
-    }
-
-    public static function getConfig()
-    {
-        return self::$_config;
+        self::$_debug = $debug;
     }
 
     public static function setDriver(IDriver $driver)
     {
         self::$_driver = $driver;
     }
+
     public static function setLevel(int $level)
     {
-      //  self::$_driver = $driver;
+        self::$_level = $level;
     }
 
     public static function getDriver(IDriver $driver = null): IDriver
@@ -81,7 +71,7 @@ class EpiiLog
 
     public static function log($level, $object, IDriver $driver = null)
     {
-        if(!self::getConfig()['debug']){
+        if(!self::$_debug){
             return;
         }
         $info = self::objectInfo($object);
