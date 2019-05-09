@@ -19,7 +19,7 @@ class EchoDriver implements IDriver
                 case 'serialize' : $msg = unserialize($msg); break;
             }
 
-            var_dump($msg);
+            print_r($msg);
             exit;
         }
 
