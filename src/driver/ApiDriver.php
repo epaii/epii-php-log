@@ -47,6 +47,7 @@ class ApiDriver implements IDriver
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         }
+        curl_setopt($ch, CURLOPT_TIMEOUT, 1);
         $content = curl_exec($ch);
         curl_close($ch);
         return $content;
