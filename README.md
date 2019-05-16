@@ -1,4 +1,4 @@
-[toc]
+
 ## Epii_php_Log (php 的应用日志服务)
 
 目前支持
