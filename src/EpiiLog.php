@@ -83,7 +83,15 @@ class EpiiLog
 
     private static function objectInfo($object)
     {
-        if(json_decode($object) !== null){
+
+
+        if (is_array($object)) {
+            $type = 'json';
+            $object = json_encode($object, JSON_UNESCAPED_UNICODE);
+        } else if (is_object($object)) {
+            $type = 'serialize';
+            $object = serialize($object);
+        } else if(json_decode($object) !== null){
             $type = 'json';
         }else if(unserialize($object)){
             $type = 'serialize';
