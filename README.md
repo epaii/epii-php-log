@@ -42,7 +42,7 @@ EpiiLog::error(字符串类型支持json字符串,serialize字符串); //支持�
 //初始化(全局有效)
 EpiiLog::setDebug(true); //开启debug 参数 true为开启 false为关闭
 EpiiLog::setLevel(EpiiLog::LEVEL_NOTICE); //设置级别 该级别下不报错
-EpiiLog::setDriver((new \epii\log\driver\ApiDriver('./logs/',array $data)); //选择Api模式，第一个参数为要远端存储所需要请求的url地址；第二个参数为需要传输的数据(array)
+EpiiLog::setDriver((new \epii\log\driver\ApiDriver('http://api.log.wszx.cc/?app=getlog@get',array $data)); //选择Api模式，第一个参数为要远端存储所需要请求的url地址；第二个参数为需要传输的数据(array)
 //发起请求
 EpiiLog::error(字符串类型支持json字符串,serialize字符串); //支持不同的日志级别 这里仅以error示例
 ```
