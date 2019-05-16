@@ -38,9 +38,6 @@ EpiiLog::error(字符串类型支持json字符串,serialize字符串); //支持�
 
 *使用方法*
 
-- 1.去管理后台注册项目唯一码
-- 2.用POST方式调用接口
-
 ```php
 //初始化(全局有效)
 EpiiLog::setDebug(true); //开启debug 参数 true为开启 false为关闭
