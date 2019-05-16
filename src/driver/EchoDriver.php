@@ -19,7 +19,9 @@ class EchoDriver implements IDriver
                 case 'serialize' : $msg = unserialize($msg); break;
             }
 
+            echo "<pre>";
             print_r($msg);
+            echo "</pre>";
             exit;
         }
 
@@ -38,7 +40,19 @@ class EchoDriver implements IDriver
             case EpiiLog::LEVEL_NOTICE : $color = "#418BCA"; break;
         }
 
-        $msg = "<span style='color:{$color};'>" . $msg . "</span>";
+        if(!$this->isCli()){
+            $msg = "<span style='color:{$color};'>" . $msg . "</span>";
+        }
+
         return $msg;
+    }
+
+    private function isCli() {
+        $type = php_sapi_name();
+        if (isset($type) && substr($type, 0, 3) == 'cli') {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

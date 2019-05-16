@@ -28,8 +28,7 @@ class FileDriver implements IDriver
 
     private function writeFile($file, $msg, $msg_type)
     {
-        $path = $this->getVendorDir()."..\\log\\";
-
+        $path = $this->cache_dir;
         if(!file_exists($path)){
             @mkdir($path,0777,true)  ?  : exit("没有权限,请检查".$path."目录权限") ;
         }
@@ -55,19 +54,5 @@ class FileDriver implements IDriver
             file_put_contents($file,$content.PHP_EOL , FILE_APPEND);
             file_put_contents($file,"===================/End/===================".PHP_EOL.PHP_EOL, FILE_APPEND | LOCK_EX);
         }
-    }
-
-    private function getVendorDir()
-    {
-        $files = get_required_files();
-        if ($files) {
-            foreach ($files as $file) {
-                if (substr($file, $pos = -strlen($find = "composer".DIRECTORY_SEPARATOR."ClassLoader.php")) == $find) {
-                    return substr($file, 0, $pos - 1)."\\";
-                }
-            }
-        }
-
-        return __DIR__."\\..\\..\\..\\";
     }
 }
