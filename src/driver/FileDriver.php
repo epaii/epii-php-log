@@ -13,12 +13,9 @@ class FileDriver implements IDriver
 {
     protected $cache_dir;
 
-    public function __construct($cache_dir = '')
+    public function __construct($cache_dir)
     {
         $this->cache_dir = $cache_dir;
-        if(empty($this->cache_dir)){
-            $this->cache_dir = __DIR__."\\..\\..\\..\\";
-        }
     }
 
     public function log(string $level, string $msg, string $msg_type = "string")
