@@ -11,15 +11,19 @@ namespace epii\log\driver;
 
 class FileDriver implements IDriver
 {
+    protected $cache_dir;
 
-    public function __construct($cache_dir)
+    public function __construct($cache_dir = '')
     {
-
+        $this->cache_dir = $cache_dir;
+        if(empty($this->cache_dir)){
+            $this->cache_dir = __DIR__."\\..\\..\\..\\";
+        }
     }
 
     public function log(string $level, string $msg, string $msg_type = "string")
     {
-        $this->writeFile(date("Ymd"),$msg,$msg_type);
+        $this->writeFile(date("Ymd").".txt",$msg,$msg_type);
     }
 
     private function writeFile($file, $msg, $msg_type)
@@ -30,7 +34,7 @@ class FileDriver implements IDriver
             @mkdir($path,0777,true)  ?  : exit("没有权限,请检查".$path."目录权限") ;
         }
 
-        $file = $path.$file.".txt";
+        $file = $path.$file;
 
         if($msg_type != 'string'){
             switch ($msg_type){

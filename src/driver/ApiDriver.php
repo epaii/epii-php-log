@@ -8,40 +8,28 @@
 
 namespace epii\log\driver;
 
-
-use epii\log\EpiiLog;
-
 class ApiDriver implements IDriver
 {
-    private $common_post_data;
+    private $common_post_data = [];
     private $url;
-
-    private $status = -1;
+    private static $status = -1;
 
     public function __construct($url, $common_post_data = [])
     {
         $this->common_post_data = $common_post_data;
         $this->url = $url;
-
-
-
     }
 
     public function log(string $level, string $msg, string $msg_type = "string")
     {
-
-        if ($this->status===-1)
-        {
+        if (self::$status == -1) {
             $data = array_merge($this->common_post_data, [
                 'do_type' => "status",
-
             ]);
 
-
-           $this->status =  $this->curlRequest($this->url, false, 'post', $data);
+            $request = json_decode($this->curlRequest($this->url, false, 'post', $data),true);
+            self::$status = $request['code'];
         }
-
-
 
         $data = array_merge($this->common_post_data, [
             'do_type' => "log",
@@ -49,7 +37,6 @@ class ApiDriver implements IDriver
             'msg_type' => $msg_type,
             'level' => $level
         ]);
-
 
         $this->curlRequest($this->url, false, 'post', $data);
     }
