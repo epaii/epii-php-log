@@ -10,5 +10,7 @@ namespace epii\log\driver;
 
 interface IDriver
 {
+
+
     public function log(string $level, string $msg, string $msg_type = "string");
 }

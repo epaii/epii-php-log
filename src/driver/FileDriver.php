@@ -11,6 +11,12 @@ namespace epii\log\driver;
 
 class FileDriver implements IDriver
 {
+
+    public function __construct($cache_dir)
+    {
+
+    }
+
     public function log(string $level, string $msg, string $msg_type = "string")
     {
         $this->writeFile(date("Ymd"),$msg,$msg_type);

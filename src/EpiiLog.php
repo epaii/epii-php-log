@@ -22,10 +22,12 @@ class EpiiLog
     private static $_driver = null;
     public static $_debug = true;
     private static $_level;
+    private static $_show_log = true;
 
     public static function setDebug(bool $debug)
     {
         self::$_debug = $debug;
+        
     }
 
     public static function setDriver(IDriver $driver)
@@ -36,6 +38,13 @@ class EpiiLog
     public static function setLevel(string $level)
     {
         self::$_level = $level;
+
+
+        $level_config = [1 => self::LEVEL_DEBUG, 2 => self::LEVEL_INFO, 3 => self::LEVEL_NOTICE, 4 => self::LEVEL_WARN, 5 => self::LEVEL_ERROR];
+        if (array_search($level, $level_config) < array_search(self::$_level, $level_config)) {
+            self::$_show_log = false;
+        }
+
     }
 
     public static function getDriver(IDriver $driver = null): IDriver
@@ -70,11 +79,11 @@ class EpiiLog
 
     public static function log($level, $object, IDriver $driver = null)
     {
-        $level_config = [1 => self::LEVEL_DEBUG, 2 => self::LEVEL_INFO, 3 => self::LEVEL_NOTICE, 4 => self::LEVEL_WARN, 5 => self::LEVEL_ERROR];
-        if(array_search($level,$level_config) < array_search(self::$_level,$level_config)){
+
+        if (!self::$_debug) {
             return;
         }
-        if(!self::$_debug){
+        if (!self::$_show_log) {
             return;
         }
         $info = self::objectInfo($object);
@@ -91,11 +100,11 @@ class EpiiLog
         } else if (is_object($object)) {
             $type = 'serialize';
             $object = serialize($object);
-        } else if(json_decode($object) !== null){
+        } else if (json_decode($object) !== null) {
             $type = 'json';
-        }else if(unserialize($object)){
+        } else if (unserialize($object)) {
             $type = 'serialize';
-        }else {
+        } else {
             $type = 'string';
         }
 
