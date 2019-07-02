@@ -27,7 +27,7 @@ class EpiiLog
     public static function setDebug(bool $debug)
     {
         self::$_debug = $debug;
-        
+
     }
 
     public static function setDriver(IDriver $driver)
@@ -102,7 +102,7 @@ class EpiiLog
             $object = serialize($object);
         } else if (json_decode($object) !== null) {
             $type = 'json';
-        } else if (unserialize($object)) {
+        } else if (@unserialize($object)) {
             $type = 'serialize';
         } else {
             $type = 'string';
