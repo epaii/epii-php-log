@@ -57,6 +57,7 @@ class ApiDriver implements IDriver
     private function curlRequest($url, $https = true, $method = "get", $data = [])
     {
 
+        $data["appid"] = $this->appid;
         self::encode($data, $this->secret_key);
 
         $ch = curl_init($url);
@@ -72,6 +73,8 @@ class ApiDriver implements IDriver
         curl_setopt($ch, CURLOPT_TIMEOUT, 1);
         $content = curl_exec($ch);
         curl_close($ch);
+//        var_dump($data);
+//        var_dump($content);
         return $content;
     }
 
