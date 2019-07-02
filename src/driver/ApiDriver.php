@@ -34,12 +34,14 @@ class ApiDriver implements IDriver
                 'do_type' => "status",
             ]);
 
-            $request = json_decode($this->curlRequest($this->url. "&app=getlog@get", false, 'post', $data), true);
-            self::$status = $request['code'];
+            $request = json_decode($this->curlRequest($this->url . "&app=getlog@get", false, 'post', $data), true);
+            if ($request["code"] == 1) {
+                self::$status = $request['data']["status"];
+            }
+
         }
 
-        if (  self::$status==1)
-        {
+        if (self::$status == 1) {
             $data = array_merge($this->common_post_data, [
                 'do_type' => "log",
                 'log' => $msg,
