@@ -9,7 +9,7 @@
 namespace epii\log;
 
 use epii\log\driver\EchoDriver;
-use epii\log\driver\IDriver;
+
 
 class EpiiLog
 {
@@ -25,18 +25,18 @@ class EpiiLog
     private static $_level;
     private static $_show_log = true;
 
-    public static function setDebug(bool $debug)
+    public static function setDebug(  $debug)
     {
         self::$_debug = $debug;
 
     }
 
-    public static function setDriver(IDriver $driver)
+    public static function setDriver(  $driver)
     {
         self::$_driver = $driver;
     }
 
-    public static function setLevel(string $level)
+    public static function setLevel(  $level)
     {
         self::$_level = $level;
 
@@ -48,42 +48,42 @@ class EpiiLog
 
     }
 
-    public static function getDriver(IDriver $driver = null): IDriver
+    public static function getDriver(  $driver = null)
     {
         return ($driver !== null) ? $driver : ((self::$_driver !== null) ? self::$_driver : (self::$_driver = new EchoDriver()));
     }
 
-    public static function error($object, IDriver $driver = null)
+    public static function error($object,   $driver = null)
     {
         self::log(self::LEVEL_ERROR, $object, $driver);
     }
 
-    public static function warn($object, IDriver $driver = null)
+    public static function warn($object,   $driver = null)
     {
         self::log(self::LEVEL_WARN, $object, $driver);
     }
 
-    public static function info($object, IDriver $driver = null)
+    public static function info($object,   $driver = null)
     {
         self::log(self::LEVEL_INFO, $object, $driver);
     }
 
-    public static function notice($object, IDriver $driver = null)
+    public static function notice($object,   $driver = null)
     {
         self::log(self::LEVEL_NOTICE, $object, $driver);
     }
 
-    public static function debug($object, IDriver $driver = null)
+    public static function debug($object,   $driver = null)
     {
         self::log(self::LEVEL_DEBUG, $object, $driver);
     }
 
-    public static function exception(string $message, array $data = [], IDriver $driver = null)
+    public static function exception(  $message,   $data = [],   $driver = null)
     {
         self::log(self::LEVEL_exception, ["message" => $message, "info" => $data], $driver);
     }
 
-    public static function log($level, $object, IDriver $driver = null)
+    public static function log($level, $object,   $driver = null)
     {
 
         if (!self::$_debug) {

@@ -11,7 +11,7 @@ namespace epii\log\driver;
 use epii\log\EpiiLog;
 class EchoDriver implements IDriver
 {
-    public function log(string $level, string $msg, string $msg_type = "string")
+    public function log(  $level,   $msg,   $msg_type = "string")
     {
         if($msg_type != 'string'){
             switch ($msg_type){

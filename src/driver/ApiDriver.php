@@ -27,7 +27,7 @@ class ApiDriver implements IDriver
         $this->secret_key = $secret_key;
     }
 
-    public function log(string $level, string $msg, string $msg_type = "string")
+    public function log(  $level,   $msg,   $msg_type = "string")
     {
         if (self::$status == -1) {
             $data = array_merge($this->common_post_data, [
