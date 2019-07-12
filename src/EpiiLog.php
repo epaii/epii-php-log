@@ -18,6 +18,7 @@ class EpiiLog
     const LEVEL_INFO = "info";
     const LEVEL_NOTICE = "notice";
     const LEVEL_DEBUG = "debug";
+    const LEVEL_exception = "exception";
 
     private static $_driver = null;
     public static $_debug = true;
@@ -40,7 +41,7 @@ class EpiiLog
         self::$_level = $level;
 
 
-        $level_config = [1 => self::LEVEL_DEBUG, 2 => self::LEVEL_INFO, 3 => self::LEVEL_NOTICE, 4 => self::LEVEL_WARN, 5 => self::LEVEL_ERROR];
+        $level_config = [1 => self::LEVEL_DEBUG, 2 => self::LEVEL_INFO, 3 => self::LEVEL_NOTICE, 4 => self::LEVEL_WARN, 5 => self::LEVEL_ERROR, 6 => self::LEVEL_exception];
         if (array_search($level, $level_config) < array_search(self::$_level, $level_config)) {
             self::$_show_log = false;
         }
@@ -75,6 +76,11 @@ class EpiiLog
     public static function debug($object, IDriver $driver = null)
     {
         self::log(self::LEVEL_DEBUG, $object, $driver);
+    }
+
+    public static function exception(string $message, array $data = [], IDriver $driver = null)
+    {
+        self::log(self::LEVEL_exception, ["message" => $message, "info" => $data], $driver);
     }
 
     public static function log($level, $object, IDriver $driver = null)
