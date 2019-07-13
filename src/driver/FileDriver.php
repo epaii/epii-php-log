@@ -18,7 +18,7 @@ class FileDriver implements IDriver
         $this->cache_dir = $cache_dir;
     }
 
-    public function log(string $level, string $msg, string $msg_type = "string")
+    public function log(  $level,   $msg,   $msg_type = "string")
     {
         $this->writeFile(date("Ymd").".txt",$msg,$msg_type);
     }

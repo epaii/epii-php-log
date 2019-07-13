@@ -12,5 +12,5 @@ interface IDriver
 {
 
 
-    public function log(string $level, string $msg, string $msg_type = "string");
+    public function log( $level,  $msg,  $msg_type = "string");
 }
