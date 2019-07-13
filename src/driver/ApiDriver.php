@@ -54,7 +54,7 @@ class ApiDriver implements IDriver
 
     }
 
-    private function curlRequest($url, $https = true, $method = "get", $data = [])
+    private function curlRequest($url, $https = true, $method = "get", $data = array())
     {
 
         $data["appid"] = $this->appid;
