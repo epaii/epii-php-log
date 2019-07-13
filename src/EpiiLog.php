@@ -22,12 +22,19 @@ class EpiiLog
 
     private static $_driver = null;
     public static $_debug = true;
-    private static $_level;
+    private static $_level = 0;
     private static $_show_log = true;
+
+
+    private static $level_config = array(1 => self::LEVEL_DEBUG, 2 => self::LEVEL_INFO, 3 => self::LEVEL_NOTICE, 4 => self::LEVEL_WARN, 5 => self::LEVEL_ERROR, 6 => self::LEVEL_exception);
+
 
     public static function setDebug($debug)
     {
         self::$_debug = $debug;
+        if (!$debug) {
+            self::$_show_log = false;
+        }
 
     }
 
@@ -38,12 +45,11 @@ class EpiiLog
 
     public static function setLevel($level)
     {
-        self::$_level = $level;
+        self::$_level = array_search($level, self::$level_config);
 
-        $level_config = array(1 => self::LEVEL_DEBUG, 2 => self::LEVEL_INFO, 3 => self::LEVEL_NOTICE, 4 => self::LEVEL_WARN, 5 => self::LEVEL_ERROR, 6 => self::LEVEL_exception);
-        if (array_search($level, $level_config) < array_search(self::$_level, $level_config)) {
+        if (!self::$_level)
             self::$_show_log = false;
-        }
+
     }
 
     public static function getDriver($driver = null)
@@ -95,12 +101,11 @@ class EpiiLog
         if (!self::$_show_log) {
             return;
         }
-        $level_config = array(1 => self::LEVEL_DEBUG, 2 => self::LEVEL_INFO, 3 => self::LEVEL_NOTICE, 4 => self::LEVEL_WARN, 5 => self::LEVEL_ERROR);
-        if (array_search($level, $level_config) < array_search(self::$_level, $level_config)) {
-            return;
+        if (array_search($level, self::$level_config) >= self::$_level) {
+            $info = self::objectInfo($object);
+            self::getDriver($driver)->log($level, $info[1], $info[0]);
         }
-        $info = self::objectInfo($object);
-        self::getDriver($driver)->log($level, $info[1], $info[0]);
+
     }
 
     private static function objectInfo($object)
